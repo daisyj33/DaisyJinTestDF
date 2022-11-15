@@ -45,7 +45,7 @@
 				"          name,",
 				"          isComplete,",
 				"          each(match(abs(1) === 1),",
-				"               'sdb' = $$)",
+				"               'asd' = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
