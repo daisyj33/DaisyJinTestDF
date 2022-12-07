@@ -24,9 +24,6 @@
 						"referenceName": "RestService1",
 						"type": "LinkedServiceReference"
 					}
-				},
-				{
-					"name": "select2"
 				}
 			],
 			"scriptLines": [
@@ -41,10 +38,10 @@
 				"     requestInterval: 0,",
 				"     paginationRules: ['supportRFC5988' -> 'true'],",
 				"     responseFormat: ['type' -> 'json', 'documentForm' -> 'documentPerLine']) ~> source1",
-				"select2 call(mapColumn(",
-				"          name,",
-				"          each(match(abs(2) === 2),",
-				"               'asdf' = $$)",
+				"source1 call(mapColumn(",
+				"          testname = body.name,",
+				"          each(match(abs(3) === 3),",
+				"               'sdfa' = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
@@ -66,13 +63,6 @@
 				"     addResponseCode: true,",
 				"     requestFormat: ['type' -> 'json'],",
 				"     responseFormat: ['type' -> 'json', 'documentForm' -> 'documentPerLine']) ~> externalCall1",
-				"source1 select(mapColumn(",
-				"          name = body.name,",
-				"          id = body.id,",
-				"          isComplete = body.isComplete",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2",
 				"externalCall1 sink(validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
