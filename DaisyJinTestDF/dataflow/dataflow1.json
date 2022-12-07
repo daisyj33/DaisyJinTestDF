@@ -39,9 +39,7 @@
 				"     paginationRules: ['supportRFC5988' -> 'true'],",
 				"     responseFormat: ['type' -> 'json', 'documentForm' -> 'documentPerLine']) ~> source1",
 				"source1 call(mapColumn(",
-				"          body,",
-				"          each(match(abs(1) ===1),",
-				"               'asdfa' = $$)",
+				"          body",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
@@ -69,7 +67,14 @@
 				"     store: 'cache',",
 				"     format: 'inline',",
 				"     output: false,",
-				"     saveOrder: 1) ~> sink1"
+				"     saveOrder: 1,",
+				"     mapColumn(",
+				"          body,",
+				"          headers,",
+				"          status,",
+				"          each(match(abs(1) === 1),",
+				"               'asdf' = $$)",
+				"     )) ~> sink1"
 			]
 		}
 	}
