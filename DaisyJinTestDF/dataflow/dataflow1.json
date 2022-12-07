@@ -72,8 +72,8 @@
 				"          body,",
 				"          headers,",
 				"          status,",
-				"          each(match(abs(1) === 1),",
-				"               'asdf' = $$)",
+				"          each(match(abs(2) === 2),",
+				"               'sadga' = $$)",
 				"     )) ~> sink1"
 			]
 		}
