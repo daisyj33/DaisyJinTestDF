@@ -52,6 +52,7 @@
 				"     format: 'rest',",
 				"     store: 'restservice',",
 				"     timeout: 30,",
+				"     headers = ['test' -> 'sdhsgsdh'],",
 				"     httpMethod: 'GET',",
 				"     entity: 'api/Todo',",
 				"     headerColumnName: 'headers',",
