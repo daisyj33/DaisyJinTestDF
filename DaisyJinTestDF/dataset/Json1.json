@@ -1,0 +1,160 @@
+{
+	"name": "Json1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "root"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"location": {
+					"type": "string"
+				},
+				"satellites": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"customers": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"orderItems": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"itemName": {
+								"type": "string"
+							},
+							"itemQty": {
+								"type": "integer"
+							},
+							"colors": {
+								"type": "array",
+								"items": {
+									"type": "string"
+								}
+							},
+							"addresses": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"state": {
+											"type": "string"
+										},
+										"cityCount": {
+											"type": "integer"
+										},
+										"cities": {
+											"type": "array",
+											"items": {
+												"type": "string"
+											}
+										},
+										"orderItems2": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"itemName2": {
+														"type": "string"
+													},
+													"itemQty2": {
+														"type": "integer"
+													},
+													"colors2": {
+														"type": "array",
+														"items": {
+															"type": "string"
+														}
+													},
+													"addresses2": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"state2": {
+																	"type": "string"
+																},
+																"cityCount2": {
+																	"type": "integer"
+																},
+																"cities2": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										},
+										"orderItems1": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"itemName1": {
+														"type": "string"
+													},
+													"itemQty1": {
+														"type": "integer"
+													},
+													"colors1": {
+														"type": "array",
+														"items": {
+															"type": "string"
+														}
+													},
+													"addresses1": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"state1": {
+																	"type": "string"
+																},
+																"cityCount1": {
+																	"type": "integer"
+																},
+																"cities1": {
+																	"type": "array",
+																	"items": {
+																		"type": "string"
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
