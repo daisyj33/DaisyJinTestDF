@@ -62,20 +62,14 @@
 				"     statusColumnName: 'status',",
 				"     addResponseCode: true,",
 				"     requestFormat: ['type' -> 'json'],",
-				"     responseFormat: ['type' -> 'json', 'documentForm' -> 'documentPerLine'],",
-				"     previewRequest: true) ~> externalCall1",
+				"     responseFormat: ['type' -> 'json', 'documentForm' -> 'documentPerLine']) ~> externalCall1",
 				"externalCall1 sink(validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     store: 'cache',",
 				"     format: 'inline',",
 				"     output: false,",
-				"     saveOrder: 1,",
-				"     mapColumn(",
-				"          body = body.id,",
-				"          headers,",
-				"          status",
-				"     )) ~> sink1"
+				"     saveOrder: 1) ~> sink1"
 			]
 		}
 	}
