@@ -14,6 +14,10 @@
 			],
 			"sinks": [
 				{
+					"linkedService": {
+						"referenceName": "AzureBlobStorage2",
+						"type": "LinkedServiceReference"
+					},
 					"name": "sink1"
 				}
 			],
@@ -47,7 +51,7 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     output(",
 				"          headers as [string,string],",
-				"          body as (id as string, isComplete as string, name as string),",
+				"          body as (),",
 				"          status as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
@@ -63,12 +67,12 @@
 				"     addResponseCode: true,",
 				"     requestFormat: ['type' -> 'json'],",
 				"     responseFormat: ['type' -> 'json', 'documentForm' -> 'documentPerLine']) ~> externalCall1",
-				"externalCall1 sink(validateSchema: false,",
+				"externalCall1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'json',",
+				"     container: 'root',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     store: 'cache',",
-				"     format: 'inline',",
-				"     output: false,",
 				"     saveOrder: 1) ~> sink1"
 			]
 		}
