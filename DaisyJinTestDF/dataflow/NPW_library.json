@@ -1,0 +1,15 @@
+{
+	"name": "NPW_library",
+	"properties": {
+		"type": "UDFLibrary",
+		"typeProperties": {
+			"sources": [],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"npw_DS_TRIM_1(string) as string = regexReplace(regexReplace(toString(trim(i1)), `\\t{2,}`, '\\t'), `\\s{2,}`, ' '),",
+				"npw_DS_TRIM_2(string, string) as string = regexReplace(regexReplace(regexReplace(toString(i1), `^[` + case(in([`(`, `)`,`[`,`{`,`\\`,`^`,`$`,`|`,`?`,`*`,`+`,`.`], trim(i2)), `\\` + trim(i2), trim(i2)) + `]+`, ''), `[` + case(in([`(`, `)`,`[`,`{`,`\\`,`^`,`$`,`|`,`?`,`*`,`+`,`.`], trim(i2)), `\\` + trim(i2), trim(i2)) + `]+$`,''), `` + case(in([`(`, `)`,`[`,`{`,`\\`,`^`,`$`,`|`,`?`,`*`,`+`,`.`], trim(i2)), `\\` + trim(i2), trim(i2)) + `{2,}`, case(in([`(`, `)`,`[`,`{`,`\\`,`^`,`$`,`|`,`?`,`*`,`+`,`.`], trim(i2)), `\\` + trim(i2), trim(i2)))"
+			]
+		}
+	}
+}

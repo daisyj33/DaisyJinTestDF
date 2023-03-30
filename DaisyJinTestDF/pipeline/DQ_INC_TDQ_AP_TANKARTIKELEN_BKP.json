@@ -1,0 +1,170 @@
+{
+	"name": "DQ_INC_TDQ_AP_TANKARTIKELEN_BKP",
+	"properties": {
+		"description": "\n      Job Name:           DQ_INC_TDQVA\n      Purpose:              This job is inserting or updating Vaste Activa records from the source table TSAAOABI\n      Date:                    11/03/2010\n      Author:                 JDA\n\n      Revision History:  \n      11/03/2010 - JDA - Initial version\n\n      Job Name:           DQ_INC_TDQ_AP_TANKARTIKELEN\n      Purpose:              This job is inserting Tankartikelen from the source table TSATTIBRAND\n      Date:                    20170608\n      Author:                 AMA\n\n      Revision History:  \n      20170608 - AMA - Initial version\n      Parameters:\n      -----------\n      psDWH:\n        psDWH parameters\n        Staging Parameter Set",
+		"activities": [
+			{
+				"name": "DQ_INC_TDQ_AP_TANKARTIKELEN",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DQ_INC_TDQ_AP_TANKARTIKELEN_BKP",
+						"type": "DataFlowReference",
+						"parameters": {
+							"psDWH": "keyValues($Keys_psDWH, $Values_psDWH)",
+							"Keys_psDWH": [
+								"jpDB2SERVER",
+								"jpDB2USER",
+								"jpDB2PWD",
+								"jpNZDATASOURCE",
+								"jpNZSADB",
+								"jpNZSADBUSER",
+								"jpNZSADBPWD",
+								"jpNZDQDB",
+								"jpNZDQDBUSER",
+								"jpNZDQDBPWD",
+								"jpNZDWDB",
+								"jpNZDWDBUSER",
+								"jpNZDWDBPWD",
+								"jpLKPHFILEPATH",
+								"jpTMPHFILEPATH",
+								"jpPROJECTFILES",
+								"jpPUBFILES",
+								"jpFLATFILES",
+								"jpDATFILES",
+								"jpBCKFILES",
+								"jpLKPFILES",
+								"jpTMPFILES",
+								"jpLOGFILES",
+								"jpOUTFILES",
+								"jpSEQFILES",
+								"jpCRMSOURCE",
+								"jpCRMUSER",
+								"jpCRMPWD",
+								"jpNZSADATASOURCE",
+								"jpNZDQDATASOURCE",
+								"jpNZDWDATASOURCE"
+							],
+							"Values_psDWH": {
+								"value": "@pipeline().parameters.Values_psDWH",
+								"type": "Expression"
+							},
+							"systemVariable": "keyValues($Keys_systemVariable, $Values_systemVariable)",
+							"Keys_systemVariable": [
+								"DSJobName",
+								"DSJobStartTimestamp"
+							],
+							"Values_systemVariable": {
+								"value": "@concat('[\"', pipeline().Pipeline, '\",\"', pipeline().TriggerTime, '\"]')",
+								"type": "Expression"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"policy": {
+			"cancelAfter": {
+				"duration": "30.00:00:00"
+			}
+		},
+		"parameters": {
+			"psDWH": {
+				"type": "String"
+			},
+			"Keys_psDWH": {
+				"type": "array",
+				"defaultValue": [
+					"jpDB2SERVER",
+					"jpDB2USER",
+					"jpDB2PWD",
+					"jpNZDATASOURCE",
+					"jpNZSADB",
+					"jpNZSADBUSER",
+					"jpNZSADBPWD",
+					"jpNZDQDB",
+					"jpNZDQDBUSER",
+					"jpNZDQDBPWD",
+					"jpNZDWDB",
+					"jpNZDWDBUSER",
+					"jpNZDWDBPWD",
+					"jpLKPHFILEPATH",
+					"jpTMPHFILEPATH",
+					"jpPROJECTFILES",
+					"jpPUBFILES",
+					"jpFLATFILES",
+					"jpDATFILES",
+					"jpBCKFILES",
+					"jpLKPFILES",
+					"jpTMPFILES",
+					"jpLOGFILES",
+					"jpOUTFILES",
+					"jpSEQFILES",
+					"jpCRMSOURCE",
+					"jpCRMUSER",
+					"jpCRMPWD",
+					"jpNZSADATASOURCE",
+					"jpNZDQDATASOURCE",
+					"jpNZDWDATASOURCE"
+				]
+			},
+			"Values_psDWH": {
+				"type": "array",
+				"defaultValue": [
+					"MCH01",
+					"QP10",
+					"QP10",
+					"NETEZZA_PRD",
+					"SAP",
+					"DW_SAPA",
+					"6FT6AOB5",
+					"DQP",
+					"DW_DQPA",
+					"EJTY66R1",
+					"DWP",
+					"DW_DWPA",
+					"A45ES5ZN",
+					"D:/Projects_Files/DWH/PRD/WRK/LKP",
+					"D:/Projects_Files/DWH/PRD/WRK/TMP",
+					"D:/Projects_Files/DWH/PRD",
+					"/PUB",
+					"D:/Projects_files/DWH/PRD/DAT",
+					"/DAT",
+					"/BCK",
+					"/WRK/LKP",
+					"/WRK/TMP",
+					"/LOG",
+					"/OUT",
+					"/WRK",
+					"EQ",
+					"MSSQL_Crm_Prd",
+					"06dw00Ic4oDerKYF8QX",
+					"Netezza_SAP_PRD",
+					"Netezza_DQP_PRD",
+					"Netezza_DWP_PRD"
+				]
+			}
+		},
+		"folder": {
+			"name": "20-DataQuality Center/20-Dimensions/AutoPoll"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-03-07T06:52:40Z"
+	},
+	"id": "/subscriptions/2e9cc886-f843-4396-b827-3c67985d85e0/resourceGroups/DeLijn-Project/providers/Microsoft.Synapse/workspaces/delijn-dhwprd1/pipelines/DQ_INC_TDQ_AP_TANKARTIKELEN_BKP",
+	"type": "Microsoft.Synapse/workspaces/pipelines",
+	"etag": "100068b7-0000-0a00-0000-6406df380000"
+}

@@ -1,0 +1,91 @@
+{
+	"name": "DQ_INC_TDQ_AP_TANKARTIKELEN_BKP",
+	"properties": {
+		"folder": {
+			"name": "20-DataQuality Center/20-Dimensions/AutoPoll"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "AzureSqlServerlessPool",
+						"type": "LinkedServiceReference"
+					},
+					"name": "nzTSATTIBRAND95"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "DeLijnADL2Gen2",
+						"type": "LinkedServiceReference"
+					},
+					"name": "nzTDQAPTANKARTIKELENins2924480"
+				},
+				{
+					"linkedService": {
+						"referenceName": "DeLijnADL2Gen2",
+						"type": "LinkedServiceReference"
+					},
+					"name": "nzTDQAPTANKARTIKELENupd2924480"
+				}
+			],
+			"transformations": [
+				{
+					"name": "xfmTankartikelenV0S128P3SurrogateKey2991Call",
+					"linkedService": {
+						"referenceName": "Surrgonate_KeyGenerator",
+						"type": "LinkedServiceReference"
+					}
+				},
+				{
+					"name": "xfmTankartikelenV0S128P3filter92767"
+				},
+				{
+					"name": "xfmTankartikelenV0S128P3SurrogateKey2991Aggregate"
+				},
+				{
+					"name": "xfmTankartikelenV0S128P3SurrogateKey2991Select"
+				},
+				{
+					"name": "xfmTankartikelenV0S128P3SurrogateKey2991Key"
+				},
+				{
+					"name": "xfmTankartikelenV0S128P3SurrogateKey2991Join"
+				},
+				{
+					"name": "xfmTankartikelenV0S128P3SurrogateKey2991"
+				},
+				{
+					"name": "xfmTankartikelenV0S128P32991Derived"
+				},
+				{
+					"name": "xfmTankartikelenV0S128P32991"
+				},
+				{
+					"name": "nzTDQAPTANKARTIKELENins2924480AlterRows"
+				},
+				{
+					"name": "xfmTankartikelenV0S128P7filter92767"
+				},
+				{
+					"name": "xfmTankartikelenV0S128P72991Derived"
+				},
+				{
+					"name": "xfmTankartikelenV0S128P72991"
+				},
+				{
+					"name": "nzTDQAPTANKARTIKELENupd2924480AlterRows"
+				}
+			],
+			"udfLibraries": [
+				{
+					"referenceName": "NPW_library",
+					"type": "DataFlowReference"
+				}
+			],
+			"script": "parameters{\n\tpsDWH as [string,string] (keyValues($Keys_psDWH,$Values_psDWH)),\n\tKeys_psDWH as string[] ([\"jpDB2SERVER\",\"jpDB2USER\",\"jpDB2PWD\",\"jpNZDATASOURCE\",\"jpNZSADB\",\"jpNZSADBUSER\",\"jpNZSADBPWD\",\"jpNZDQDB\",\"jpNZDQDBUSER\",\"jpNZDQDBPWD\",\"jpNZDWDB\",\"jpNZDWDBUSER\",\"jpNZDWDBPWD\",\"jpLKPHFILEPATH\",\"jpTMPHFILEPATH\",\"jpPROJECTFILES\",\"jpPUBFILES\",\"jpFLATFILES\",\"jpDATFILES\",\"jpBCKFILES\",\"jpLKPFILES\",\"jpTMPFILES\",\"jpLOGFILES\",\"jpOUTFILES\",\"jpSEQFILES\",\"jpCRMSOURCE\",\"jpCRMUSER\",\"jpCRMPWD\",\"jpNZSADATASOURCE\",\"jpNZDQDATASOURCE\",\"jpNZDWDATASOURCE\"]),\n\tValues_psDWH as string[] ([\"MCH01\",\"QP10\",\"QP10\",\"NETEZZA_PRD\",\"SAP\",\"DW_SAPA\",\"6FT6AOB5\",\"DQP\",\"DW_DQPA\",\"EJTY66R1\",\"DWP\",\"DW_DWPA\",\"A45ES5ZN\",\"D:/Projects_Files/DWH/PRD/WRK/LKP\",\"D:/Projects_Files/DWH/PRD/WRK/TMP\",\"D:/Projects_Files/DWH/PRD\",\"/PUB\",\"D:/Projects_files/DWH/PRD/DAT\",\"/DAT\",\"/BCK\",\"/WRK/LKP\",\"/WRK/TMP\",\"/LOG\",\"/OUT\",\"/WRK\",\"EQ\",\"MSSQL_Crm_Prd\",\"06dw00Ic4oDerKYF8QX\",\"Netezza_SAP_PRD\",\"Netezza_DQP_PRD\",\"Netezza_DWP_PRD\"]),\n\tsystemVariable as [string,string] (keyValues($Keys_systemVariable,$Values_systemVariable)),\n\tKeys_systemVariable as string[],\n\tValues_systemVariable as string[]\n}\nsource(output(\n\t\tNUMART as integer,\n\t\tOMS as string,\n\t\tSRT as string,\n\t\tDATVAN as date,\n\t\tDATTOT as date,\n\t\tPMK as integer,\n\t\tAP_TA_ID as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'query',\n\tstore: 'sqlserver',\n\tquery: (\"select\\n    sa.numart\\n  , sa.oms\\n  , sa.srt\\n  , sa.datvan\\n  , sa.dattot\\n  , sa.pmk\\n  , dq.ap_ta_id\\nfrom tsattibrand sa\\nleft outer join \" + toString($psDWH['jpNZDQDBUSER']) + \".tdq_ap_tankartikelen dq -- /***Review: Reference to database and/or server name is not supported.***/\\n on sa.pmk = dq.ap_ta_idcd\\n-- DATABASE_AND_SCHEMA_NAME - db name not supported.\\n\"),\n\tisolationLevel: 'READ_UNCOMMITTED') ~> nzTSATTIBRAND95\nxfmTankartikelenV0S128P3SurrogateKey2991Aggregate call(output(\n\t\theaders as [string,string],\n\t\tbody as (FirstVal as long, Increment as long),\n\t\tstatus as string\n\t),\n\tallowSchemaDrift: true,\n\tformat: 'rest',\n\tstore: 'restservice',\n\ttimeout: 30,\n\trequestInterval: 0,\n\theaders = ['sequenceName' -> iif(size(split(substring('#psDWH.jpPROJECTFILES##psDWH.jpSEQFILES#/seq_TDQ_AP_TANKARTIKELEN', 1, length('#psDWH.jpPROJECTFILES##psDWH.jpSEQFILES#/seq_TDQ_AP_TANKARTIKELEN')-length(reverse(split(reverse('#psDWH.jpPROJECTFILES##psDWH.jpSEQFILES#/seq_TDQ_AP_TANKARTIKELEN'),'.')[1]))-1), '/'))>1, split(substring('#psDWH.jpPROJECTFILES##psDWH.jpSEQFILES#/seq_TDQ_AP_TANKARTIKELEN', 1, length('#psDWH.jpPROJECTFILES##psDWH.jpSEQFILES#/seq_TDQ_AP_TANKARTIKELEN')-length(reverse(split(reverse('#psDWH.jpPROJECTFILES##psDWH.jpSEQFILES#/seq_TDQ_AP_TANKARTIKELEN'),'.')[1]))-1), '/')[size(split(substring('#psDWH.jpPROJECTFILES##psDWH.jpSEQFILES#/seq_TDQ_AP_TANKARTIKELEN', 1, length('#psDWH.jpPROJECTFILES##psDWH.jpSEQFILES#/seq_TDQ_AP_TANKARTIKELEN')-length(reverse(split(reverse('#psDWH.jpPROJECTFILES##psDWH.jpSEQFILES#/seq_TDQ_AP_TANKARTIKELEN'),'.')[1]))-1), '/'))], substring('#psDWH.jpPROJECTFILES##psDWH.jpSEQFILES#/seq_TDQ_AP_TANKARTIKELEN', 1, length('#psDWH.jpPROJECTFILES##psDWH.jpSEQFILES#/seq_TDQ_AP_TANKARTIKELEN')-length(reverse(split(reverse('#psDWH.jpPROJECTFILES##psDWH.jpSEQFILES#/seq_TDQ_AP_TANKARTIKELEN'),'.')[1]))-1)), 'batchSize' -> toString(rowcount)],\n\thttpMethod: 'POST',\n\theaderColumnName: 'headers',\n\tbodyColumnName: 'body',\n\tstatusColumnName: 'status',\n\taddResponseCode: true,\n\trequestFormat: ['type' -> 'json'],\n\tresponseFormat: ['type' -> 'json', 'documentForm' -> 'singleDocument']) ~> xfmTankartikelenV0S128P3SurrogateKey2991Call\nnzTSATTIBRAND95 filter(isNull(AP_TA_ID)== toBoolean('1')) ~> xfmTankartikelenV0S128P3filter92767\nxfmTankartikelenV0S128P3filter92767 aggregate(rowcount = count(1),\n\tpartitionBy('hash', 1)) ~> xfmTankartikelenV0S128P3SurrogateKey2991Aggregate\nxfmTankartikelenV0S128P3SurrogateKey2991Call select(mapColumn(\n\t\trowcount,\n\t\tFirstVal = body.FirstVal,\n\t\tIncrement = body.Increment\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> xfmTankartikelenV0S128P3SurrogateKey2991Select\nxfmTankartikelenV0S128P3filter92767 keyGenerate(output(npw_AP_TA_ID as long),\n\tstartAt: 1L,\n\tstepValue: 1L) ~> xfmTankartikelenV0S128P3SurrogateKey2991Key\nxfmTankartikelenV0S128P3SurrogateKey2991Key, xfmTankartikelenV0S128P3SurrogateKey2991Select join(npw_AP_TA_ID > 0 && FirstVal > 0,\n\tjoinType:'cross',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> xfmTankartikelenV0S128P3SurrogateKey2991Join\nxfmTankartikelenV0S128P3SurrogateKey2991Join derive(AP_TA_ID = (FirstVal - Increment ) + Increment * npw_AP_TA_ID) ~> xfmTankartikelenV0S128P3SurrogateKey2991\nxfmTankartikelenV0S128P3SurrogateKey2991 derive(NUMART = NUMART,\n\t\tOMS = OMS,\n\t\tSRT = SRT,\n\t\tDATVAN = DATVAN,\n\t\tDATTOT = DATTOT,\n\t\tPMK = PMK,\n\t\tAP_TA_ID = AP_TA_ID,\n\t\tAP_TA_ARCD = NUMART,\n\t\tAP_TA_IDCD = PMK,\n\t\tAP_TA_DGVDT = DATVAN,\n\t\tAP_TA_DGTDT = DATTOT,\n\t\tAP_TA_OM = case(isNull(OMS), toString(null()), npw_DS_TRIM_1(OMS)),\n\t\tAP_TA_SOORT = SRT,\n\t\tISDELETED = \"N\",\n\t\tISVALID = \"Y\",\n\t\tISSEVER = \"\",\n\t\tTMSUPD = currentTimestamp(),\n\t\tTMSCRE = currentTimestamp(),\n\t\tPGMUPD = $systemVariable[\"DSJobName\"],\n\t\tPGMCRE = $systemVariable[\"DSJobName\"]) ~> xfmTankartikelenV0S128P32991Derived\nxfmTankartikelenV0S128P32991Derived select(mapColumn(\n\t\tNUMART,\n\t\tOMS,\n\t\tSRT,\n\t\tDATVAN,\n\t\tDATTOT,\n\t\tPMK,\n\t\tAP_TA_ID,\n\t\tAP_TA_ARCD,\n\t\tAP_TA_IDCD,\n\t\tAP_TA_DGVDT,\n\t\tAP_TA_DGTDT,\n\t\tAP_TA_OM,\n\t\tAP_TA_SOORT,\n\t\tISDELETED,\n\t\tISVALID,\n\t\tISSEVER,\n\t\tTMSUPD,\n\t\tTMSCRE,\n\t\tPGMUPD,\n\t\tPGMCRE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> xfmTankartikelenV0S128P32991\nxfmTankartikelenV0S128P32991 alterRow(insertIf(1==1)) ~> nzTDQAPTANKARTIKELENins2924480AlterRows\nnzTSATTIBRAND95 filter(isNull(AP_TA_ID)== toBoolean('0')) ~> xfmTankartikelenV0S128P7filter92767\nxfmTankartikelenV0S128P7filter92767 derive(NUMART = NUMART,\n\t\tOMS = OMS,\n\t\tSRT = SRT,\n\t\tDATVAN = DATVAN,\n\t\tDATTOT = DATTOT,\n\t\tPMK = PMK,\n\t\tAP_TA_ID = AP_TA_ID,\n\t\tAP_TA_ARCD = NUMART,\n\t\tAP_TA_IDCD = PMK,\n\t\tAP_TA_DGVDT = DATVAN,\n\t\tAP_TA_DGTDT = DATTOT,\n\t\tAP_TA_OM = case(isNull(OMS), toString(null()), npw_DS_TRIM_1(OMS)),\n\t\tAP_TA_SOORT = SRT,\n\t\tISVALID = \"Y\",\n\t\tISSEVER = \"\",\n\t\tTMSUPD = currentTimestamp(),\n\t\tPGMUPD = $systemVariable[\"DSJobName\"]) ~> xfmTankartikelenV0S128P72991Derived\nxfmTankartikelenV0S128P72991Derived select(mapColumn(\n\t\tNUMART,\n\t\tOMS,\n\t\tSRT,\n\t\tDATVAN,\n\t\tDATTOT,\n\t\tPMK,\n\t\tAP_TA_ID,\n\t\tAP_TA_ARCD,\n\t\tAP_TA_IDCD,\n\t\tAP_TA_DGVDT,\n\t\tAP_TA_DGTDT,\n\t\tAP_TA_OM,\n\t\tAP_TA_SOORT,\n\t\tISVALID,\n\t\tISSEVER,\n\t\tTMSUPD,\n\t\tPGMUPD\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> xfmTankartikelenV0S128P72991\nxfmTankartikelenV0S128P72991 alterRow(updateIf(1==1)) ~> nzTDQAPTANKARTIKELENupd2924480AlterRows\nnzTDQAPTANKARTIKELENins2924480AlterRows sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delta',\n\tfileSystem: 'np-delijn-container',\n\tfolderPath: 'delta/TDQ_AP_TANKARTIKELEN',\n\tmergeSchema: false,\n\tautoCompact: false,\n\toptimizedWrite: false,\n\tvacuum: 0,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tkeys:[''],\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> nzTDQAPTANKARTIKELENins2924480\nnzTDQAPTANKARTIKELENupd2924480AlterRows sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'delta',\n\tfileSystem: 'np-delijn-container',\n\tfolderPath: 'delta/TDQ_AP_TANKARTIKELEN',\n\tmergeSchema: false,\n\tautoCompact: false,\n\toptimizedWrite: false,\n\tvacuum: 0,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['AP_TA_ID'],\n\tumask: 0022,\n\tpreCommands: [],\n\tpostCommands: [],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> nzTDQAPTANKARTIKELENupd2924480"
+		}
+	}
+}
