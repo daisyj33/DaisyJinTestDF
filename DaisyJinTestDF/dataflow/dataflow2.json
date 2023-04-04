@@ -5,6 +5,10 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "Json1",
+						"type": "DatasetReference"
+					},
 					"name": "source1"
 				}
 			],
@@ -15,8 +19,17 @@
 			],
 			"transformations": [],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1",
+				"source(output(",
+				"          name as string,",
+				"          location as string,",
+				"          satellites as string[],",
+				"          customers as string[],",
+				"          orderItems as (itemName as string, itemQty as integer, colors as string[], addresses as (state as string, cityCount as integer, cities as string[], orderItems2 as (itemName2 as string, itemQty2 as integer, colors2 as string[], addresses2 as (state2 as string, cityCount2 as integer, cities2 as string[])[])[], orderItems1 as (itemName1 as string, itemQty1 as integer, colors1 as string[], addresses1 as (state1 as string, cityCount1 as integer, cities1 as string[])[])[])[])[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> source1",
 				"source1 sink(validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
